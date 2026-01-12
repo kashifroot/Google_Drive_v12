@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <!-- Mail template are declared in a NOUPDATE block
+         so users can freely customize/delete them -->
+    <data noupdate="1">
+        <!--Email template -->
+        <record id="muk_document_mail_template" model="mail.template">
+            <field name="name">Document Send Mail Template</field>
+            <field name="model_id" ref="muk_dms.model_muk_dms_file"/>
+            <field name="email_from">${object.company.email_formatted |safe}</field>
+            <!-- <field name="partner_to">${object.customer_id.id | safe}</field> -->
+            <field name="subject">${object.company.name}: ${object.name}</field>
+            <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    Dear 
+                    <br />
+                    Enclosed the <strong>${object.name}</strong> for your perusal
+                    <br /><br />
+                    % if object.file_url:
+                        <a href="${object.file_url}" style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">Download</a>
+                    % endif
+                    <br /><br />
+                    from ${object.company.name}.
+                    <br /><br />
+                    Do not hesitate to contact us if you have any question.
+                </p>
+            </div>
+            </field>
+            <field name="lang">${object.company.lang}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="muk_directory_mail_template" model="mail.template">
+            <field name="name">Directory Send Mail Template</field>
+            <field name="model_id" ref="muk_dms.model_muk_dms_directory"/>
+            <field name="email_from">${object.company.email_formatted |safe}</field>
+            <!-- <field name="partner_to">${object.customer_id.id | safe}</field> -->
+            <field name="subject">${object.company.name}: ${object.name}</field>
+            <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    Dear 
+                    <br />
+                    Enclosed the <strong>${object.name}</strong> for your perusal
+                    <br /><br />
+                    % if object.files:
+                        <ul>
+                        % for file in object.files:
+                            % if file.upload_mail:
+                                <li><a href="${file.file_url}">${file.name}</a></li>
+                            % endif
+                        % endfor
+                        </ul>
+                    % endif
+                    <br /><br />
+                    from ${object.company.name}.
+                    <br /><br />
+                    Do not hesitate to contact us if you have any question.
+                </p>
+            </div>
+            </field>
+            <field name="lang">${object.company.lang}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

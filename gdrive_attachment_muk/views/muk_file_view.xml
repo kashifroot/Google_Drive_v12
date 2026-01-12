@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dms_file_form_inherit_gdrive" model="ir.ui.view">
+        <field name="name">muk_dms.file.view.form.inherit.google.drive
+        </field>
+        <field name="model">muk_dms.file</field>
+        <field name="inherit_id" ref="muk_dms.view_dms_file_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button type="object" name="send_mail_for_document" string="Send Mail" class="btn-primary" attrs="{'invisible': [('is_expired', '=', True)]}"/>
+            </xpath>
+            <field name="tags" position="after">
+                <field name="file_url" readonly="1" widget="url"/> 
+            </field>
+            <field name="storage" position="after">
+                <field name="upload_mail" attrs="{'readonly': [('is_expired', '=', True)]}"/>
+                <field name="internal"/>
+                <field name="valid_from"/>
+                <field name="valid_to"/>
+                <field name="is_expired"/>
+            </field>
+            <xpath expr="//field[@name='content']" position="attributes">
+                <attribute name="required">0</attribute>
+            </xpath>
+            <xpath expr="//page[last()]" position="after">
+                <page name="sale_document" string="SO Doc">
+                    <field name="so_document_ids">
+                        <tree editable="bottom">
+                            <field name="partner_id" options="{'no_create': True, 'no_edit': True, 'no_create_edit': True}" required="1"/>
+                            <field name="send_datetime"/>
+                            <field name="sale_order_id" domain="[('partner_id','=', partner_id)]" options="{'no_create': True, 'no_edit': True, 'no_create_edit': True}" required="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+</odoo>

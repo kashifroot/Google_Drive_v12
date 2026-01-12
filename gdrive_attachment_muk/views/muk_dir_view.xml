@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dms_directory_form_inherit" model="ir.ui.view">
+        <field name="name">muk_dms_directory.form</field>
+        <field name="model">muk_dms.directory</field>
+        <field name="inherit_id" ref="muk_dms.view_dms_directory_form"/>
+        <field name="arch" type="xml">
+        <xpath expr="//header" position="inside">
+            <button class="btn-primary" name="send_mail_for_directory" string="Send Mail" type="object"/>
+        </xpath>
+        
+        <xpath expr="//field[@name='files']" position="replace">
+            <field name="files" 
+                context="{'default_directory': active_id, 'mail_create_nolog': True}">
+                <tree string="Files" limit="10">
+                    <field name="name" readonly="1"/>
+                    <field name="upload_mail" attrs="{'readonly': [('is_expired', '=', True)]}"/>
+                    <field name="internal"/>
+                    <field name="valid_from"/>
+                    <field name="valid_to"/>
+                    <field name="is_expired" invisible="1"/>
+                    <field name="mimetype" readonly="1"/>
+                    <field name="size" widget="binary_size"/>
+                    <field name="write_date" readonly="1" />
+                </tree>
+            </field>
+        </xpath>
+    </field>
+    </record>
+</odoo>
